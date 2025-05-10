@@ -1,0 +1,157 @@
+/* client/src/styles/SearchResults.css */
+
+.search-results-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.search-results-container h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.search-params {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.search-params p {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.search-params p strong {
+  color: #333;
+}
+
+.results-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.result-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+}
+
+.flight-info, .train-info, .bus-info {
+  flex: 1;
+}
+
+.flight-info h3, .train-info h3, .bus-info h3 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.flight-info p, .train-info p, .bus-info p {
+  color: #666;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+}
+
+.flight-info p svg, 
+.train-info p svg, 
+.bus-info p svg {
+  margin-right: 0.5rem;
+  color: #4a90e2;
+}
+
+.duration {
+  font-weight: 600;
+  color: #4a90e2;
+}
+
+.book-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #ddd;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #28a745;
+}
+
+.book-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.book-button:hover {
+  background-color: #3a7bc8;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .result-card {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .book-section {
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    border-left: 1px dashed #ddd;
+    padding-left: 1.5rem;
+    min-width: 150px;
+  }
+  
+  .price {
+    margin-bottom: 0.5rem;
+  }
+}

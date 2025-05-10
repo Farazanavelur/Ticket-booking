@@ -1,0 +1,122 @@
+/* client/src/styles/Ticket.css */
+
+.ticket-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.ticket-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.ticket-header h2 {
+  color: #28a745;
+  margin-bottom: 0.5rem;
+}
+
+.ticket-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to bottom, #4a90e2, #28a745);
+}
+
+.ticket-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed #ddd;
+}
+
+.ticket-status {
+  background-color: #28a745;
+  color: white;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.detail-row span:first-child {
+  font-weight: 600;
+  color: #555;
+}
+
+.passenger-details {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #ddd;
+}
+
+.passenger-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.payment-details {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #ddd;
+}
+
+.payment-status {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.ticket-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.download-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.download-button:hover {
+  background-color: #3a7bc8;
+}
+
+@media print {
+  .ticket-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  
+  .download-button {
+    display: none;
+  }
+}
