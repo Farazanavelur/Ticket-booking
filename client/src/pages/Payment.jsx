@@ -20,57 +20,50 @@ const Payment = () => {
     }
   }, [bookingDetails, navigate]);
 
-  const handlePaymentSubmit = async (e) => {
-    e.preventDefault();
-    setIsProcessing(true);
-    setError('');
+const handlePaymentSubmit = async (e) => {
+  e.preventDefault();
+  setIsProcessing(true);
+  setError('');
 
-    // Validate payment details
-    if (paymentMethod === 'card') {
-      if (!cardNumber || !cardName || !expiryDate || !cvv) {
-        setError('Please fill all card details');
-        setIsProcessing(false);
-        return;
-      }
-    }
-
-    // Simulate payment processing
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // In a real app, you would call your backend API to process payment
-      // const response = await axios.post('/api/payments/process', {
-      //   bookingDetails,
-      //   paymentDetails: {
-      //     method: paymentMethod,
-      //     cardNumber,
-      //     cardName,
-      //     expiryDate,
-      //     cvv
-      //   },
-      //   userId: currentUser.id
-      // });
-
-      // For demo purposes, we'll simulate a successful payment
-      navigate('/ticket', { 
-        state: { 
-          bookingDetails,
-          paymentDetails: {
-            method: paymentMethod,
-            amount: bookingDetails.totalAmount,
-            transactionId: `TXN${Math.floor(Math.random() * 1000000)}`,
-            status: 'completed',
-            timestamp: new Date().toISOString()
-          }
-        } 
-      });
-    } catch (err) {
-      setError('Payment failed. Please try again.');
-      console.error(err);
-    } finally {
+  // Validate card details if card is selected
+  if (paymentMethod === 'card') {
+    if (!cardNumber || !cardName || !expiryDate || !cvv) {
+      setError('Please fill all card details');
       setIsProcessing(false);
+      return;
     }
-  };
+  }
+
+  try {
+    // Simulate payment delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const transactionId = `TXN${Math.floor(Math.random() * 1000000)}`;
+    const paymentInfo = {
+      bookingDetails,
+      paymentDetails: {
+        method: paymentMethod,
+        amount: bookingDetails.totalAmount,
+        transactionId,
+        status: 'completed',
+        timestamp: new Date().toISOString()
+      }
+    };
+
+    // Save to localStorage
+    const existingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+    localStorage.setItem('bookingHistory', JSON.stringify([paymentInfo, ...existingHistory]));
+
+    // Navigate to ticket page
+    navigate('/ticket', { state: paymentInfo });
+  } catch (err) {
+    console.error(err);
+    setError('Payment failed. Please try again.');
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
 
   if (!bookingDetails) {
     return null;

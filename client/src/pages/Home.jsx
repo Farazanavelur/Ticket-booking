@@ -31,6 +31,8 @@ const Home = () => {
     navigate('/search', { state: searchParams });
   };
 
+  const today = new Date().toISOString().split('T')[0];
+
   return (
     <div className="home-container">
       <div className="hero-section" style={{ backgroundImage: `url(${travelImage})` }}>
@@ -42,20 +44,20 @@ const Home = () => {
 
       <div className="search-container">
         <div className="search-tabs">
-          <button 
-            className={searchType === 'flight' ? 'active' : ''} 
+          <button
+            className={searchType === 'flight' ? 'active' : ''}
             onClick={() => setSearchType('flight')}
           >
             Flights
           </button>
-          <button 
-            className={searchType === 'train' ? 'active' : ''} 
+          <button
+            className={searchType === 'train' ? 'active' : ''}
             onClick={() => setSearchType('train')}
           >
             Trains
           </button>
-          <button 
-            className={searchType === 'bus' ? 'active' : ''} 
+          <button
+            className={searchType === 'bus' ? 'active' : ''}
             onClick={() => setSearchType('bus')}
           >
             Buses
@@ -65,43 +67,45 @@ const Home = () => {
         <form onSubmit={handleSearch} className="search-form">
           <div className="form-group">
             <label>From</label>
-            <input 
-              type="text" 
-              placeholder="Departure city" 
-              value={departure} 
-              onChange={(e) => setDeparture(e.target.value)} 
-              required 
+            <input
+              type="text"
+              placeholder="Departure city"
+              value={departure}
+              onChange={(e) => setDeparture(e.target.value)}
+              required
             />
           </div>
 
           <div className="form-group">
             <label>To</label>
-            <input 
-              type="text" 
-              placeholder="Arrival city" 
-              value={arrival} 
-              onChange={(e) => setArrival(e.target.value)} 
-              required 
+            <input
+              type="text"
+              placeholder="Arrival city"
+              value={arrival}
+              onChange={(e) => setArrival(e.target.value)}
+              required
             />
           </div>
 
           <div className="form-group">
             <label>Departure Date</label>
-            <input 
-              type="date" 
-              value={departureDate} 
-              onChange={(e) => setDepartureDate(e.target.value)} 
-              required 
+            <input
+              type="date"
+              value={departureDate}
+              min={today}
+              onChange={(e) => setDepartureDate(e.target.value)}
+              required
             />
           </div>
 
           {searchType === 'flight' && (
             <div className="form-group">
               <label>Return Date (Optional)</label>
-              <input 
-                type="date" 
-                value={returnDate} 
-                onChange={(e) => setReturnDate(e.target.value)} 
+              <input
+                type="date"
+                value={returnDate}
+                min={departureDate || today}
+                onChange={(e) => setReturnDate(e.target.value)}
               />
             </div>
           )}

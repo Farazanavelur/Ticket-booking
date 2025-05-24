@@ -120,3 +120,30 @@
     display: none;
   }
 }
+
+.ticket-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.ticket-actions button {
+  padding: 10px 20px;
+  background-color: #0066cc;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.ticket-actions button:hover {
+  background-color: #004a99;
+  transform: translateY(-2px);
+}
+
+.ticket-actions button:active {
+  transform: scale(0.98);
+}

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import html2pdf from 'html2pdf.js';
 import '../styles/Ticket.css';
 
 const Ticket = () => {
   const location = useLocation();
   const { bookingDetails, paymentDetails } = location.state || {};
+  const ticketRef = useRef();
 
   if (!bookingDetails || !paymentDetails) {
     return <div className="ticket-error">No ticket information found</div>;
@@ -15,6 +17,24 @@ const Ticket = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  const handleDownloadPDF = () => {
+    const element = ticketRef.current;
+
+    const options = {
+      margin: 0.5,
+      filename: 'ticket_booking.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    };
+
+    html2pdf().set(options).from(element).save();
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="ticket-container">
       <div className="ticket-header">
@@ -22,7 +42,7 @@ const Ticket = () => {
         <p>Your ticket has been successfully booked. Thank you for choosing us!</p>
       </div>
 
-      <div className="ticket-card">
+      <div ref={ticketRef} className="ticket-card">
         <div className="ticket-header-section">
           <h3>E-Ticket</h3>
           <div className="ticket-status">Confirmed</div>
@@ -102,15 +122,13 @@ const Ticket = () => {
             <span className="payment-status">{paymentDetails.status}</span>
           </div>
         </div>
+      </div>
 
-        <div className="ticket-footer">
-          <p>Thank you for booking with us! Have a safe journey.</p>
-          <button 
-            className="download-button"
-            onClick={() => window.print()}
-          >
-            Download Ticket
-          </button>
+      <div className="ticket-footer">
+        <p>Thank you for booking with us! Have a safe journey.</p>
+        <div className="ticket-actions">
+          <button onClick={handlePrint}>Print Ticket</button>
+          <button onClick={handleDownloadPDF}>Download PDF</button>
         </div>
       </div>
     </div>

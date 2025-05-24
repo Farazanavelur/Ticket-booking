@@ -29,6 +29,7 @@ const Booking = require('./models/Booking');
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/search', require('./routes/search'));
+app.use('/api/flights', require('./routes/flights'));
 
 // Start Server
 const PORT = process.env.PORT || 5000;

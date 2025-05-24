@@ -2,55 +2,32 @@ import React from 'react';
 import { FaBus, FaClock, FaRupeeSign } from 'react-icons/fa';
 
 const BusCard = ({ bus }) => {
-  // Add null check for the entire bus object
   if (!bus) {
     return <div className="bus-info loading">Loading bus information...</div>;
   }
 
   return (
     <div className="bus-info">
-      <h3>{bus.name || 'Bus not specified'}</h3>
-      {bus.number && (
-        <p>
-          <FaBus /> Number: {bus.number}
-        </p>
-      )}
-      
-      {/* Check if departure exists before accessing its properties */}
-      {bus.departure ? (
-        <p>
-          <FaBus /> Departure: {bus.departure.station} at {bus.departure.time}
-        </p>
-      ) : (
-        <p><FaBus /> Departure: Not available</p>
-      )}
-      
-      {/* Check if arrival exists before accessing its properties */}
-      {bus.arrival ? (
-        <p>
-          <FaBus /> Arrival: {bus.arrival.station} at {bus.arrival.time}
-        </p>
-      ) : (
-        <p><FaBus /> Arrival: Not available</p>
-      )}
-      
-      <p className="duration">
+      <h3>{bus.operator || 'Operator not specified'}</h3>
+      <p>
+        <FaBus /> Bus Number: {bus.busNumber || 'Not specified'}
+      </p>
+      <p>
+        <FaBus /> Departure: {bus.departureTime || 'Not available'}
+      </p>
+      <p>
+        <FaBus /> Arrival: {bus.arrivalTime || 'Not available'}
+      </p>
+      <p>
         <FaClock /> Duration: {bus.duration || 'Not specified'}
       </p>
-      
-      {/* Check if type exists */}
-      {bus.type && (
-        <p>
-          <FaBus /> Type: {bus.type}
-        </p>
-      )}
-      
-      {/* Check if price exists */}
-      {bus.price && (
-        <p>
-          <FaRupeeSign /> Price: {bus.price}
-        </p>
-      )}
+      <p>
+        <FaBus /> Type: {bus.type || 'Not specified'}
+      </p>
+      <p>
+        <FaRupeeSign /> Price: ₹{bus.price}
+      </p>
+      <p>Seats Available: {bus.seatsAvailable}</p>
     </div>
   );
 };

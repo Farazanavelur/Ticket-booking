@@ -4,6 +4,7 @@ import '../styles/SearchResults.css';
 import FlightCard from '../components/FlightCard';
 import TrainCard from '../components/TrainCard';
 import BusCard from '../components/BusCard';
+import flightsData from '../../flight-data.json';
 
 const SearchResults = () => {
   const location = useLocation();
@@ -31,82 +32,78 @@ const SearchResults = () => {
     fetchResults();
   }, [searchParams]);
 
-  const generateMockResults = (params) => {
-    if (params.type === 'flight') {
-      return [
-        {
-          id: 1,
-          airline: 'Air India',
-          flightNumber: 'AI101',
-          departureTime: '08:00',
-          arrivalTime: '10:30',
-          duration: '2h 30m',
-          price: 5000,
-          seatsAvailable: 24,
-          class: params.classType
-        },
-        {
-          id: 2,
-          airline: 'IndiGo',
-          flightNumber: '6E205',
-          departureTime: '12:15',
-          arrivalTime: '14:45',
-          duration: '2h 30m',
-          price: 4500,
-          seatsAvailable: 12,
-          class: params.classType
-        }
-      ];
-    } else if (params.type === 'train') {
-      return [
-        {
-          id: 1,
-          name: 'Rajdhani Express',
-          number: '12301',
-          departureTime: '16:30',
-          arrivalTime: '06:00',
-          duration: '13h 30m',
-          price: 1500,
-          seatsAvailable: 120
-        },
-        {
-          id: 2,
-          name: 'Shatabdi Express',
-          number: '12002',
-          departureTime: '06:00',
-          arrivalTime: '12:30',
-          duration: '6h 30m',
-          price: 1800,
-          seatsAvailable: 85
-        }
-      ];
-    } else {
-      return [
-        {
-          id: 1,
-          operator: 'Volvo Travels',
-          busNumber: 'VOL123',
-          departureTime: '22:00',
-          arrivalTime: '06:00',
-          duration: '8h',
-          price: 1200,
-          seatsAvailable: 15,
-          type: params.busType
-        },
-        {
-          id: 2,
-          operator: 'SRS Travels',
-          busNumber: 'SRS456',
-          departureTime: '20:30',
-          arrivalTime: '04:30',
-          duration: '8h',
-          price: 1000,
-          seatsAvailable: 22,
-          type: params.busType
-        }
-      ];
-    }
+  const calculateDuration = (start, end) => {
+    const startTime = new Date(start);
+    const endTime = new Date(end);
+    const diff = (endTime - startTime) / 1000 / 60; // in minutes
+
+    const hours = Math.floor(diff / 60);
+    const minutes = diff % 60;
+
+    return `${hours}h ${minutes}m`;
   };
+
+  const generateMockResults = (params) => {
+    const { departure, arrival, departureDate, type } = params;
+
+    const formatDateOnly = (dateTimeStr) => dateTimeStr.split(' ')[0];
+
+    if (type === 'flight') {
+      return flightsData.flights.filter(flight =>
+        flight.origin.toLowerCase() === departure.toLowerCase() &&
+        flight.destination.toLowerCase() === arrival.toLowerCase() &&
+        formatDateOnly(flight.departure_time) === departureDate
+      ).map((flight, index) => ({
+        id: index + 1,
+        airline: flight.airline,
+        flightNumber: flight.flight_number,
+        departureTime: flight.departure_time.split(' ')[1],
+        arrivalTime: flight.arrival_time.split(' ')[1],
+        duration: calculateDuration(flight.departure_time, flight.arrival_time),
+        price: flight.price,
+        seatsAvailable: Math.floor(Math.random() * 50) + 1, // Random availability
+        class: params.classType
+      }));
+    }
+
+    if (type === 'train') {
+      return flightsData.trains.filter(train =>
+        train.origin.toLowerCase() === departure.toLowerCase() &&
+        train.destination.toLowerCase() === arrival.toLowerCase() &&
+        formatDateOnly(train.departure_time) === departureDate
+      ).map((train, index) => ({
+        id: index + 1,
+        name: train.train_name,
+        number: train.train_number,
+        departureTime: train.departure_time.split(' ')[1],
+        arrivalTime: train.arrival_time.split(' ')[1],
+        duration: calculateDuration(train.departure_time, train.arrival_time),
+        price: train.price,
+        seatsAvailable: Math.floor(Math.random() * 200) + 50
+      }));
+    }
+
+    if (type === 'bus') {
+      return flightsData.buses.filter(bus =>
+        bus.origin.toLowerCase() === departure.toLowerCase() &&
+        bus.destination.toLowerCase() === arrival.toLowerCase() &&
+        formatDateOnly(bus.departure_time) === departureDate
+      ).map((bus, index) => ({
+        id: index + 1,
+        operator: bus.operator,
+        busNumber: bus.bus_number,
+        departureTime: bus.departure_time.split(' ')[1],
+        arrivalTime: bus.arrival_time.split(' ')[1],
+        duration: calculateDuration(bus.departure_time, bus.arrival_time),
+        price: bus.price,
+        seatsAvailable: Math.floor(Math.random() * 30) + 10,
+        type: bus.bus_type
+      }));
+    }
+
+    return [];
+  };
+
 
   const handleBookNow = (item) => {
     navigate('/book', { state: { item, searchParams } });
@@ -141,8 +138,8 @@ const SearchResults = () => {
               {searchParams.type === 'bus' && <BusCard bus={item} />}
               <div className="book-section">
                 <div className="price">₹{item.price}</div>
-                <button 
-                  onClick={() => handleBookNow(item)} 
+                <button
+                  onClick={() => handleBookNow(item)}
                   className="book-button"
                 >
                   Book Now

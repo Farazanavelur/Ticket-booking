@@ -2,7 +2,6 @@ import React from 'react';
 import { FaPlane, FaClock, FaRupeeSign } from 'react-icons/fa';
 
 const FlightCard = ({ flight }) => {
-  // Add a check to ensure flight exists
   if (!flight) {
     return <div className="flight-info">Loading flight information...</div>;
   }
@@ -14,19 +13,19 @@ const FlightCard = ({ flight }) => {
         <FaPlane /> Flight: {flight.flightNumber}
       </p>
       <p>
-        <FaPlane /> Departure: {flight.departure?.airport || 'N/A'} at {flight.departure?.time || 'N/A'}
-        {flight.departure?.terminal && ` (Terminal ${flight.departure.terminal})`}
+        <FaClock /> Departure: {flight.departureTime}
       </p>
       <p>
-        <FaPlane /> Arrival: {flight.arrival?.airport || 'N/A'} at {flight.arrival?.time || 'N/A'}
-        {flight.arrival?.terminal && ` (Terminal ${flight.arrival.terminal})`}
-      </p>
-      <p className="duration">
-        <FaClock /> Duration: {flight.duration || 'N/A'}
+        <FaClock /> Arrival: {flight.arrivalTime}
       </p>
       <p>
-        <FaRupeeSign /> Class: {flight.class || 'N/A'}
+        <FaClock /> Duration: {flight.duration}
       </p>
+      <p>
+        <FaRupeeSign /> Price: ₹{flight.price}
+      </p>
+      <p>Class: {flight.class}</p>
+      <p>Seats Available: {flight.seatsAvailable}</p>
     </div>
   );
 };
